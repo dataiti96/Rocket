@@ -30,12 +30,12 @@ CREATE TABLE `Account` (
     FOREIGN KEY (PositionID)   REFERENCES `Position`(PositionID)
 );
 
-INSERT INTO `Account` (Email, Username, FullName, DepartmentID, PositionID)
-VALUES 	('chutich@gmail.com', 'chutich', 'Chu Tich', 1, 1),
-		('giamdoc@gmail.com', 'giamdoc', 'Giam Doc', 2, 1),
-		('quanly@gmail.com', 'quanly', 'Quan Ly', 3, 3),
-        ('nhanvien@gmail.com', 'nhanvien', 'Nhan Vien', 4, 4),
-        ('baove@gmail.com', 'baove', 'Bao Ve', 5, 2);
+INSERT INTO `Account` 	(Email, 				Username, 	FullName, 		DepartmentID, 	PositionID)
+VALUES 					('chutich@gmail.com', 	'chutich', 	'Chu Tich', 	1, 				1),
+						('giamdoc@gmail.com', 	'giamdoc', 	'Giam Doc', 	2, 				1),
+						('quanly@gmail.com', 	'quanly', 	'Quan Ly', 		3, 				3),
+						('nhanvien@gmail.com', 	'nhanvien', 'Nhan Vien', 	4, 				4),
+						('baove@gmail.com', 	'baove', 	'Bao Ve', 		5, 				2);
 
 CREATE TABLE `Group` (
 	GroupID			SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -45,12 +45,12 @@ CREATE TABLE `Group` (
     FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID)
 );
 
-INSERT INTO `Group` (GroupName, CreatorID)
-VALUES 	('Nhom Cap Cao', 2),
-		('Nhom Quan Ly', 3),
-		('Nhom Noi Bo', 3),
-        ('Nhom Cong Ty', 3),
-        ('Nhom Gia Dinh', 4);
+INSERT INTO `Group` (GroupName, 		CreatorID)
+VALUES 				('Nhom Cap Cao', 	2),
+					('Nhom Quan Ly', 	3),
+					('Nhom Noi Bo', 	3),
+					('Nhom Cong Ty', 	3),
+					('Nhom Gia Dinh', 	4);
 
 CREATE TABLE GroupAccount (
 	GroupID			SMALLINT UNSIGNED NOT NULL,
@@ -95,46 +95,46 @@ CREATE TABLE Question (
     FOREIGN KEY (CreatorID)	 REFERENCES `Account`(AccountID)
 );
 
-INSERT INTO Question (Content, CategoryID, TypeID, CreatorID)
-VALUES 	('Chu Tich ten day du la gi?', 1, 1, 4),
-		('Giam Doc la nam hay nu?', 2, 1, 5),
-		('Quan Ly sinh nam bao nhieu?', 3, 2, 2),
-        ('Nhan Vien que o dau?', 4, 2, 1),
-        ('Bao Ve co gia dinh chua?', 5, 2, 3);
+INSERT INTO Question 	(Content, 						CategoryID, TypeID, CreatorID)
+VALUES 					('Chu Tich ten day du la gi?', 	1, 			1, 		4),
+						('Giam Doc la nam hay nu?', 	2, 			1, 		5),
+						('Quan Ly sinh nam bao nhieu?', 3, 			2, 		2),
+						('Nhan Vien que o dau?', 		4, 			2, 		1),
+						('Bao Ve co gia dinh chua?', 	5, 			2, 		3);
 
 CREATE TABLE Answer (
 	AnswerID		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Content			VARCHAR(100) NOT NULL UNIQUE KEY,
     QuestionID		SMALLINT UNSIGNED NOT NULL,
-    isCorrect		ENUM('TRUE', 'FALSE'),
+    isCorrect		BOOLEAN,
     FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
 );
 
-INSERT INTO Answer (Content, QuestionID, isCorrect)
-VALUES 	('Khong ai biet !!!', 1, 'FALSE'),
-		('Doan xem =)))', 2, 'TRUE'),
-		('Chac la 9x', 3, 'TRUE'),
-        ('Thanh Hoa', 4, 'TRUE'),
-        ('Nhin cung khong con tre.', 5, 'FALSE');
+INSERT INTO Answer 	(Content, 						QuestionID, isCorrect)
+VALUES 				('Khong ai biet !!!', 			1, 			FALSE),
+					('Doan xem =)))', 				2, 			TRUE),
+					('Chac la 9x', 					3, 			TRUE),
+					('Thanh Hoa', 					4, 			TRUE),
+					('Nhin cung khong con tre.', 	5, 			FALSE);
 
 CREATE TABLE Exam (
 	ExamID			SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `Code`			CHAR(10) NOT NULL UNIQUE KEY,
     Title			VARCHAR(20) NOT NULL UNIQUE KEY,
     CategoryID		TINYINT UNSIGNED NOT NULL,
-    Duration		TIME NOT NULL,
+    Duration		TINYINT UNSIGNED NOT NULL,
     CreatorID		MEDIUMINT UNSIGNED NOT NULL,
     CreateDate		DATE DEFAULT(NOW()),
     FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion(CategoryID),
     FOREIGN KEY (CreatorID)	 REFERENCES `Account`(AccountID)
 );
 
-INSERT INTO Exam (`Code`, Title, CategoryID, Duration, CreatorID)
-VALUES 	('A1', 'Thi dau vao', 1, 100, 4),
-		('B2', 'Thi dau ra', 2, 200, 5),
-		('C3', 'Kiem tra dinh ky', 3, 300, 2),
-        ('D4', 'Thi ky nang', 4, 400, 1),
-        ('E5', 'Test IQ', 5, 500, 3);
+INSERT INTO Exam 	(`Code`, 	Title, 				CategoryID, Duration, 	CreatorID)
+VALUES 				('A1', 		'Thi dau vao', 		1, 			50, 		4),
+					('B2', 		'Thi dau ra', 		2, 			100, 		5),
+					('C3', 		'Kiem tra dinh ky', 3, 			150, 		2),
+					('D4', 		'Thi ky nang', 		4, 			200, 		1),
+					('E5', 		'Test IQ', 			5, 			250, 		3);
 
 CREATE TABLE ExamQuestion (
 	ExamID			SMALLINT UNSIGNED NOT NULL,

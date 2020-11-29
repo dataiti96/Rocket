@@ -41,3 +41,57 @@ WHERE `account`.DepartmentID = department.DepartmentID
 GROUP BY `account`.DepartmentID HAVING count(`account`.DepartmentID) > 3;
 
 -- Q13
+SELECT *, count(E.ExamID) AS USED
+FROM question Q, examquestion E
+WHERE Q.QuestionID = E.QuestionID
+GROUP BY E.QuestionID
+ORDER BY count(E.ExamID) DESC
+LIMIT 1;
+
+-- Q14
+SELECT C.CategoryID, C.CategoryName, count(Q.QuestionID) AS TotalQuiz
+FROM categoryquestion C, question Q
+WHERE C.CategoryID = Q.CategoryID
+GROUP BY Q.CategoryID;
+
+-- Q15
+SELECT *
+FROM question, answer
+WHERE question.QuestionID = answer.QuestionID
+GROUP BY answer.QuestionID
+ORDER BY count(answer.AnswerID) DESC
+LIMIT 1;
+
+-- Q16
+SELECT *
+FROM position P, `account` A
+WHERE P.PositionID = A.PositionID
+GROUP BY A.PositionID
+ORDER BY count(A.AccountID)
+LIMIT 1;
+
+-- Q17
+SELECT D.DepartmentName, count(A.PositionID) AS PM /*DEV, TEST, SCRUM MASTER*/
+FROM department D, `account` A
+WHERE D.DepartmentID = A.DepartmentID AND A.PositionID =
+(SELECT PositionID FROM `position` WHERE PositionName = 'PM') /*DEV, TEST, SCRUM MASTER*/
+GROUP BY A.DepartmentID;
+
+-- Q18
+SELECT Q.QuestionID, Q.Content,
+C.CategoryName,
+T.TypeName,
+A.FullName AS CREATOR,
+Q.CreateDate,
+S.Content AS ANSWER
+FROM question Q, answer S, categoryquestion C, typequestion T, `account` A
+WHERE Q.QuestionID = S.QuestionID AND
+Q.CategoryID = C.CategoryID AND
+Q.CreatorID = A.AccountID AND
+Q.TypeID = T.TypeID;
+
+-- Q19
+SELECT typequestion.TypeID, typequestion.TypeName, count(question.QuestionID) AS TOTAL
+FROM typequestion, question
+WHERE typequestion.TypeID = question.TypeID
+GROUP BY question.TypeID;
