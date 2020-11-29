@@ -71,11 +71,14 @@ ORDER BY count(A.AccountID)
 LIMIT 1;
 
 -- Q17
-SELECT D.DepartmentName, count(A.PositionID) AS PM /*DEV, TEST, SCRUM MASTER*/
-FROM department D, `account` A
-WHERE D.DepartmentID = A.DepartmentID AND A.PositionID =
-(SELECT PositionID FROM `position` WHERE PositionName = 'PM') /*DEV, TEST, SCRUM MASTER*/
-GROUP BY A.DepartmentID;
+SELECT D.DepartmentName, P.PositionName, count(A.AccountID) AS TOTAL
+FROM department D, `account` A, `position` P
+WHERE D.DepartmentID = A.DepartmentID
+AND A.PositionID = P.PositionID
+AND A.PositionID IN
+(SELECT PositionID FROM `position` WHERE PositionName IN ('PM','DEV', 'TEST', 'SCRUM MASTER'))
+GROUP BY A.DepartmentID, A.PositionID
+ORDER BY A.DepartmentID;
 
 -- Q18
 SELECT Q.QuestionID, Q.Content,

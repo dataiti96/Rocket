@@ -36,6 +36,17 @@ VALUES 					('chutich@gmail.com', 	'chutich', 	'Chu Tich', 	1, 				1),
 						('quanly@gmail.com', 	'quanly', 	'Quan Ly', 		3, 				3),
 						('nhanvien@gmail.com', 	'nhanvien', 'Nhan Vien', 	4, 				4),
 						('baove@gmail.com', 	'baove', 	'Bao Ve', 		5, 				2);
+INSERT INTO `Account` 	(Email, 				Username, 	FullName, 		DepartmentID, 	PositionID)
+VALUES 					('chutic@gmail.com', 	'chutic', 	'Chu Tic', 		1, 				2),
+						('giamdo@gmail.com', 	'giamdo', 	'Giam Do', 		1, 				2),
+						('quanl@gmail.com', 	'quanl', 	'Quan L', 		2, 				1),
+						('nhanvie@gmail.com', 	'nhanvie',	'Nhan Vie', 	2, 				2),
+						('baov@gmail.com', 		'baov', 	'Bao V', 		2, 				2),
+                        ('chuti@gmail.com', 	'chuti', 	'Chu Ti', 		3, 				4),
+						('giamd@gmail.com', 	'giamd', 	'Giam D', 		4, 				4),
+						('quan@gmail.com', 		'quan', 	'Quan ',		4, 				3),
+						('nhanvi@gmail.com', 	'nhanvi', 	'Nhan Vi', 		4, 				3),
+						('bao@gmail.com', 		'bao', 		'Bao ', 		5, 				2);
 
 CREATE TABLE `Group` (
 	GroupID			SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
