@@ -112,6 +112,8 @@ VALUES 					('Chu Tich ten day du la gi?', 	1, 			1, 		4),
 						('Quan Ly sinh nam bao nhieu?', 3, 			2, 		2),
 						('Nhan Vien que o dau?', 		4, 			2, 		1),
 						('Bao Ve co gia dinh chua?', 	5, 			2, 		3);
+INSERT INTO Question 	(Content, 						CategoryID, TypeID, CreatorID)
+VALUES 					('Chu Tich ten day du la gi?????????', 	1, 			1, 		4);
 
 CREATE TABLE Answer (
 	AnswerID		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
