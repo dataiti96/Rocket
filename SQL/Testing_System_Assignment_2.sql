@@ -20,7 +20,7 @@ SELECT * FROM `group` ORDER BY CreateDate DESC LIMIT 5;
 
 -- Q7 null
 -- Q8
-DELETE FROM exam WHERE CreateDate < 2019-12-20;
+DELETE FROM exam WHERE CreateDate > '2020-11-27';
 
 -- Q9
 UPDATE `account`

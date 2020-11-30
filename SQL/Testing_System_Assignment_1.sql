@@ -148,6 +148,8 @@ VALUES 				('A1', 		'Thi dau vao', 		1, 			50, 		4),
 					('C3', 		'Kiem tra dinh ky', 3, 			150, 		2),
 					('D4', 		'Thi ky nang', 		4, 			200, 		1),
 					('E5', 		'Test IQ', 			5, 			250, 		3);
+INSERT INTO Exam 	(`Code`, 	Title, 				CategoryID, Duration, 	CreatorID)
+VALUES 				('A', 		'Thi dau va', 		1, 			50, 		4);
 
 CREATE TABLE ExamQuestion (
 	ExamID			SMALLINT UNSIGNED NOT NULL,

@@ -37,5 +37,28 @@ WHERE QuestionID IN (
 );
 
 -- Q4
+DROP VIEW IF EXISTS DEP_MAX_NV;
+CREATE VIEW DEP_MAX_NV AS (
+	SELECT department.DepartmentID, DepartmentName, count(AccountID) AS NUM_NV, group_concat(Username) AS `MEMBER`
+	FROM department, `account`
+	WHERE department.DepartmentID = `account`.DepartmentID
+	GROUP BY DepartmentName
+    HAVING count(AccountID) = (
+		WITH NUM_NV AS (
+			SELECT count(AccountID) AS NUM_NV
+			FROM department, `account`
+			WHERE department.DepartmentID = `account`.DepartmentID
+			GROUP BY DepartmentName
+		)
+		SELECT max(NUM_NV) FROM NUM_NV
+    )
+);
 
-
+-- Q5
+CREATE VIEW QUIZ_CHU AS (
+	SELECT *
+	FROM question
+	WHERE CreatorID IN (SELECT AccountID
+						FROM `account`
+						WHERE FullName LIKE 'CHU%')
+);
