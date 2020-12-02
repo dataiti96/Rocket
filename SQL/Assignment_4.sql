@@ -7,16 +7,23 @@ CREATE TABLE Employee (
     EmployeeLastName VARCHAR(100),
 	EmployeeFirstName VARCHAR(100),
 	EmployeeHireDate DATE NOT NULL,
-    EmployeeStatus ENUM('Doc Than', 'Gia Dinh'),
+    EmployeeStatus VARCHAR(50),
     SupervisorID INT UNSIGNED,
     SocialSecurityNumber VARCHAR(50) UNIQUE KEY,
     FOREIGN KEY (SupervisorID) REFERENCES Employee(EmployeeID)
 );
 
 INSERT INTO Employee (EmployeeLastName, EmployeeFirstName, EmployeeHireDate, EmployeeStatus, SupervisorID, SocialSecurityNumber)
-VALUES	('Loan', 'Nguyen', '1967-9-8', 'Gia Dinh', NULL, 0982284161),
-		('Dat', 'Truong', '1996-4-2', 'Doc Than', 1, 0975557905),
-        ('Tam', 'Do', '1996-5-24', 'Doc Than', 2, 0946137400);
+VALUES	('Tuấn','Đình','1999-07-23','Hoàn hảo', null, 2307),
+('Tú','Đình','2002-01-22','Đẹp Troai', 1, 2201),
+('My','Trà','1999-03-05','Hơi Lùn', null, 0503),
+('Anh','Quỳnh','1999-12-10','Xinh Gái', null, 1012),
+('Ngọc','Phan','1977-06-01','Ghê Gớm', null, 0106),
+('Dũng','Đình','1976-07-19','Hoàn hảo', null, 1907),
+('Anh','Bảo','1999-10-05','Đẹp Troai', null, 0510),
+('Dương','Thùy','1999-12-03','Xinh Gái', null, 0312),
+('Công','Đắc','1999-01-01','Cao', 5, 0101),
+('Tráng','Văn','1999-09-09','Ngố Tàu', 5, 0909);
 
 CREATE TABLE Projects (
 	ProjectID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -74,8 +81,12 @@ VALUES	(1, 1, '2020-11-25', NULL, '75%'),
 DROP PROCEDURE IF EXISTS DEL_P_ON_3M;
 
 DELIMITER $$
-CREATE PROCEDURE DEL_P_ON_3M ()
+CREATE PROCEDURE DEL_P_ON_3M (OUT O_NUM_DEL INT)
 	BEGIN
+		SELECT count(1) INTO O_NUM_DEL
+        FROM Projects
+        WHERE ProjectCompletedOn <= (SELECT date_sub(now(), interval 3 month));
+        
 		DELETE FROM Projects
         WHERE ProjectCompletedOn <= (SELECT date_sub(now(), interval 3 month));
     END$$
@@ -98,3 +109,9 @@ DELIMITER ;
 
 SET @I_PROJECT = 0, @I_EMPLOYEE = 0;
 CALL M_DOING(@I_PROJECT, @I_EMPLOYEE);
+
+-- Đệ Quy
+-- SELECT e.EmployeeLastName, (SELECT EmployeeLastName FROM employee WHERE EmployeeID = e.SupervisorID) as supervisor
+-- FROM employee e;
+
+-- 
