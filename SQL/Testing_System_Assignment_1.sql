@@ -8,7 +8,7 @@ CREATE TABLE Department (
 );
 
 INSERT INTO Department (DepartmentName)
-VALUES ('Phong Chu Tich'), ('Phong Giam Doc'), ('Phong Quan Ly'), ('Phong Nhan Vien'), ('Phong Bao Ve');
+VALUES ('Phong Chu Tich'), ('Phong Giam Doc'), ('Phong Quan Ly'), ('Phong Nhan Vien'), ('Phong Bao Ve'), ('PHONG CHO');
 
 CREATE TABLE `Position` (
 	PositionID		TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -23,10 +23,10 @@ CREATE TABLE `Account` (
     Email			VARCHAR(50) UNIQUE KEY,
     Username		CHAR(20) NOT NULL UNIQUE KEY,
     FullName		VARCHAR(30) NOT NULL,
-    DepartmentID	TINYINT UNSIGNED NOT NULL,
+    DepartmentID	TINYINT UNSIGNED DEFAULT(6),
     PositionID		TINYINT UNSIGNED NOT NULL,
     CreateDate		DATE DEFAULT(NOW()),
-    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID),
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID) ON DELETE SET NULL,
     FOREIGN KEY (PositionID)   REFERENCES `Position`(PositionID)
 );
 
@@ -154,7 +154,7 @@ VALUES 				('A', 		'Thi dau va', 		1, 			50, 		4);
 CREATE TABLE ExamQuestion (
 	ExamID			SMALLINT UNSIGNED NOT NULL,
     QuestionID		SMALLINT UNSIGNED NOT NULL,
-    FOREIGN KEY (ExamID)	 REFERENCES Exam(ExamID),
+    FOREIGN KEY (ExamID)	 REFERENCES Exam(ExamID) ON DELETE CASCADE,
     FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
 );
 
