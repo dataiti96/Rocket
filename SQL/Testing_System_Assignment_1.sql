@@ -18,14 +18,16 @@ CREATE TABLE `Position` (
 INSERT INTO `Position` (PositionName)
 VALUES ('PM'), ('Scrum Master'), ('Dev'), ('Test');
 
+DROP TABLE IF EXISTS `Account`;
 CREATE TABLE `Account` (
 	AccountID		MEDIUMINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Email			VARCHAR(50) UNIQUE KEY,
     Username		CHAR(20) NOT NULL UNIQUE KEY,
     FullName		VARCHAR(30) NOT NULL,
-    DepartmentID	TINYINT UNSIGNED DEFAULT(6),
+    DepartmentID	TINYINT UNSIGNED,
     PositionID		TINYINT UNSIGNED NOT NULL,
     CreateDate		DATE DEFAULT(NOW()),
+    GENDER			CHAR(5),
     FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID) ON DELETE SET NULL,
     FOREIGN KEY (PositionID)   REFERENCES `Position`(PositionID)
 );
@@ -53,7 +55,7 @@ CREATE TABLE `Group` (
     GroupName		VARCHAR(50) NOT NULL UNIQUE KEY,
     CreatorID		MEDIUMINT UNSIGNED NOT NULL,
     CreateDate		DATE DEFAULT(NOW()),
-    FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID)
+    FOREIGN KEY (CreatorID) REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 INSERT INTO `Group` (GroupName, 		CreatorID)
@@ -63,20 +65,21 @@ VALUES 				('Nhom Cap Cao', 	2),
 					('Nhom Cong Ty', 	3),
 					('Nhom Gia Dinh', 	4);
 
+DROP TABLE IF EXISTS GroupAccount;
 CREATE TABLE GroupAccount (
 	GroupID			SMALLINT UNSIGNED NOT NULL,
     AccountID		MEDIUMINT UNSIGNED NOT NULL,
     JoinDate		DATETIME DEFAULT(NOW()),
-    FOREIGN KEY (GroupID)	REFERENCES `Group`(GroupID),
-    FOREIGN KEY (AccountID)	REFERENCES `Account`(AccountID)
+    FOREIGN KEY (GroupID)	REFERENCES `Group`(GroupID) ON DELETE CASCADE,
+    FOREIGN KEY (AccountID)	REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 INSERT INTO GroupAccount (GroupID, AccountID)
 VALUES 	(1, 2), (1, 1),
 		(2, 3), (2, 1), (2, 2),
 		(3, 3), (3, 1), (3, 2), (3, 4),
-        (4, 3), (4, 1), (4, 2), (4, 4), (4, 5),
-        (5, 4), (5, 5);
+        (4, 3), (4, 1), (4, 2), (4, 4),
+        (5, 4);
 
 CREATE TABLE TypeQuestion (
 	TypeID			TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -103,7 +106,7 @@ CREATE TABLE Question (
     CreateDate		DATETIME DEFAULT(NOW()),
     FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion(CategoryID),
     FOREIGN KEY (TypeID)	 REFERENCES TypeQuestion(TypeID),
-    FOREIGN KEY (CreatorID)	 REFERENCES `Account`(AccountID)
+    FOREIGN KEY (CreatorID)	 REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 INSERT INTO Question 	(Content, 						CategoryID, TypeID, CreatorID)
@@ -115,12 +118,13 @@ VALUES 					('Chu Tich ten day du la gi?', 	1, 			1, 		4),
 INSERT INTO Question 	(Content, 						CategoryID, TypeID, CreatorID)
 VALUES 					('Chu Tich ten day du la gi?????????', 	1, 			1, 		4);
 
+DROP TABLE IF EXISTS Answer;
 CREATE TABLE Answer (
 	AnswerID		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Content			VARCHAR(100) NOT NULL UNIQUE KEY,
     QuestionID		SMALLINT UNSIGNED NOT NULL,
     isCorrect		BOOLEAN,
-    FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
+    FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID) ON DELETE CASCADE
 );
 
 INSERT INTO Answer 	(Content, 						QuestionID, isCorrect)
@@ -139,7 +143,7 @@ CREATE TABLE Exam (
     CreatorID		MEDIUMINT UNSIGNED NOT NULL,
     CreateDate		DATE DEFAULT(NOW()),
     FOREIGN KEY (CategoryID) REFERENCES CategoryQuestion(CategoryID),
-    FOREIGN KEY (CreatorID)	 REFERENCES `Account`(AccountID)
+    FOREIGN KEY (CreatorID)	 REFERENCES `Account`(AccountID) ON DELETE CASCADE
 );
 
 INSERT INTO Exam 	(`Code`, 	Title, 				CategoryID, Duration, 	CreatorID)
@@ -151,11 +155,12 @@ VALUES 				('A1', 		'Thi dau vao', 		1, 			50, 		4),
 INSERT INTO Exam 	(`Code`, 	Title, 				CategoryID, Duration, 	CreatorID)
 VALUES 				('A', 		'Thi dau va', 		1, 			50, 		4);
 
+DROP TABLE IF EXISTS ExamQuestion;
 CREATE TABLE ExamQuestion (
 	ExamID			SMALLINT UNSIGNED NOT NULL,
     QuestionID		SMALLINT UNSIGNED NOT NULL,
     FOREIGN KEY (ExamID)	 REFERENCES Exam(ExamID) ON DELETE CASCADE,
-    FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
+    FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID) ON DELETE CASCADE
 );
 
 INSERT INTO ExamQuestion (ExamID, QuestionID)

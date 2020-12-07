@@ -77,7 +77,8 @@ DELIMITER $$
 CREATE PROCEDURE IN_NAME_MAIL (IN I_FULLNAME VARCHAR(30), IN I_EMAIL VARCHAR(50))
 	BEGIN
 		INSERT INTO `account` (Email, Username, FullName, DepartmentID, PositionID)
-        VALUE (I_EMAIL, (SELECT SUBSTRING_INDEX(I_EMAIL, '@', 1)), I_FULLNAME, 1, (
+        VALUE (I_EMAIL, (SELECT SUBSTRING_INDEX(I_EMAIL, '@', 1)), I_FULLNAME, (
+        SELECT DepartmentID FROM department WHERE DepartmentName = 'PHONG CHO'), (
         SELECT PositionID FROM position WHERE PositionName = 'DEV'));
         SELECT *
         FROM `account`
@@ -158,7 +159,7 @@ DROP PROCEDURE IF EXISTS NUM_Q_6M;
 DELIMITER $$
 CREATE PROCEDURE NUM_Q_6M ()
 	BEGIN
-		CREATE TABLE `MONTH` (THANG INT);
+		CREATE TEMPORARY TABLE `MONTH` (THANG INT);
 		INSERT INTO `MONTH` VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12);
         
         WITH `COUNT` AS (
@@ -179,6 +180,6 @@ CREATE PROCEDURE NUM_Q_6M ()
         month(date_sub(now(), INTERVAL 5 MONTH))
         );
         
-        DROP TABLE `MONTH`;
+        DROP TEMPORARY TABLE `MONTH`;
 	END$$
 DELIMITER ;
